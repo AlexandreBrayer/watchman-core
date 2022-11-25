@@ -4,6 +4,7 @@ from pydispatch import dispatcher
 from scrapy import signals
 import sys
 
+
 class TheBradery(scrapy.Spider):
     def __init__(self):
         dispatcher.connect(self.spider_closed, signals.spider_closed)
@@ -36,7 +37,7 @@ class TheBradery(scrapy.Spider):
                     "brand": product["vendor"],
                     "currency": "EUR",
                     "meta": {
-                    "productType": product["product_type"],
+                        "productType": product["product_type"],
                     }
                 })
 

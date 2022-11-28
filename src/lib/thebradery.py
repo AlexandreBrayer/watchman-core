@@ -4,12 +4,12 @@ from pydispatch import dispatcher
 from scrapy import signals
 import sys
 
-
 class TheBradery(scrapy.Spider):
     def __init__(self):
         dispatcher.connect(self.spider_closed, signals.spider_closed)
 
     name = "The Bradery"
+    processId = "63821ac7b3353ff3a8cc7ce5"
     start_urls = [
         "https://thebradery.com/collections"
     ]
@@ -31,16 +31,17 @@ class TheBradery(scrapy.Spider):
                     "ref": sku["sku"],
                     "desc": product["body_html"],
                     "images": [x["src"] for x in product["images"]],
-                    "price": product["variants"][0]["compare_at_price"],
+                    "price": product["variants"][0]["compare_at_price"] or product["variants"][0]["price"],
                     "reducedPrice": product["variants"][0]["price"],
                     "url": "https://thebradery.com/products/"+product["handle"],
                     "brand": product["vendor"],
                     "currency": "EUR",
                     "meta": {
                         "productType": product["product_type"],
-                    }
+                    },
+                    "from" : self.processId,
                 })
 
     def spider_closed(self, spider):
-        print(self.products)
+        print(json.dumps(self.products))
         sys.stdout.flush()

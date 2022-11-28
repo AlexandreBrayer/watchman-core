@@ -3,7 +3,7 @@ from scrapy.crawler import CrawlerProcess
 from lib.thebradery import TheBradery
 
 spiderTable = {
-    "4n6mcbl33nhropd": TheBradery,
+    "63821ac7b3353ff3a8cc7ce5": TheBradery,
 }
 
 for arg in sys.argv[1:]:

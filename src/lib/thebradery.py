@@ -26,21 +26,22 @@ class TheBradery(scrapy.Spider):
         products = json.loads(response.body)
         for product in products["products"]:
             for sku in product["variants"]:
-                self.products.append({
-                    "name": product["title"],
-                    "ref": sku["sku"],
-                    "desc": product["body_html"],
-                    "images": [x["src"] for x in product["images"]],
-                    "price": product["variants"][0]["compare_at_price"] or product["variants"][0]["price"],
-                    "reducedPrice": product["variants"][0]["price"],
-                    "url": "https://thebradery.com/products/"+product["handle"],
-                    "brand": product["vendor"],
-                    "currency": "EUR",
-                    "meta": {
-                        "productType": product["product_type"],
-                    },
-                    "from" : self.processId,
-                })
+                if sku["sku"] != "":
+                    self.products.append({
+                        "name": product["title"],
+                        "ref": sku["sku"],
+                        "desc": product["body_html"],
+                        "images": [x["src"] for x in product["images"]],
+                        "price": product["variants"][0]["compare_at_price"] or product["variants"][0]["price"],
+                        "reducedPrice": product["variants"][0]["price"],
+                        "url": "https://thebradery.com/products/"+product["handle"],
+                        "brand": product["vendor"],
+                        "currency": "EUR",
+                        "meta": {
+                            "productType": product["product_type"],
+                        },
+                        "from" : self.processId,
+                    })
 
     def spider_closed(self, spider):
         print(json.dumps(self.products))

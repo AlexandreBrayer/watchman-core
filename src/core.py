@@ -10,8 +10,7 @@ spiderTable = {
     "638e1dd7bb49205cbe876772": Lacoste
 }
 
-for arg in sys.argv[1:]:
-    process = CrawlerProcess()
-    process.crawl(spiderTable[arg])
+process = CrawlerProcess()
+process.crawl(spiderTable[sys.argv[1]])
     
 process.start()

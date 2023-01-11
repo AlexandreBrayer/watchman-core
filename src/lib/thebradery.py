@@ -4,6 +4,7 @@ from pydispatch import dispatcher
 from scrapy import signals
 import sys
 
+
 class TheBradery(scrapy.Spider):
     def __init__(self):
         dispatcher.connect(self.spider_closed, signals.spider_closed)
@@ -26,7 +27,7 @@ class TheBradery(scrapy.Spider):
         products = json.loads(response.body)
         for product in products["products"]:
             for sku in product["variants"]:
-                if sku["sku"] != "":
+                if sku["sku"] != "" and sku["sku"] is not None:
                     self.products.append({
                         "name": product["title"],
                         "ref": sku["sku"],
@@ -40,7 +41,7 @@ class TheBradery(scrapy.Spider):
                         "meta": {
                             "productType": product["product_type"],
                         },
-                        "from" : self.processId,
+                        "from": self.processId,
                     })
 
     def spider_closed(self, spider):
